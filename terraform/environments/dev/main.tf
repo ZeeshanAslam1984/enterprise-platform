@@ -16,3 +16,32 @@ module "networking" {
   private_subnet_cidr = var.private_subnet_cidr
   availability_zone   = var.availability_zone
 }
+
+module "security" {
+  source = "../../modules/security"
+
+  vpc_id = module.vpc.vpc_id
+
+  environment = var.environment
+}
+
+module "compute" {
+  source = "../../modules/compute"
+
+  instance_name = "dev-web-server"
+
+  ami_id        = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = module.networking.public_subnet_id
+
+  security_group_ids = [
+    module.security.application_security_group_id
+  ]
+
+  key_name = var.key_name
+
+  tags = {
+    Environment = "dev"
+    Project     = "platform-engineering-lab"
+  }
+}
