@@ -12,9 +12,13 @@ module "networking" {
 
   environment = var.environment
 
-  public_subnet_cidr  = var.public_subnet_cidr
-  private_subnet_cidr = var.private_subnet_cidr
+  public_subnet_cidr    = var.public_subnet_cidr
+  private_subnet_cidr   = var.private_subnet_cidr
+  public_subnet_cidr_2  = var.public_subnet_cidr_2
+  private_subnet_cidr_2 = var.private_subnet_cidr_2
+
   availability_zone   = var.availability_zone
+  availability_zone_2 = var.availability_zone_2
 }
 
 module "security" {
@@ -46,15 +50,26 @@ module "compute" {
   }
 }
 
+module "storage" {
+  source = "../../modules/storage"
+
+  bucket_name = "platform-engineering-lab-dev-storage"
+
+  environment = var.environment
+
+  tags = {
+    Environment = "dev"
+    Project     = "platform-engineering-lab"
+  }
+}
+
 module "load_balancer" {
   source = "../../modules/load-balancer"
 
   environment = var.environment
   vpc_id      = module.vpc.vpc_id
 
-  public_subnet_ids = [
-    module.networking.public_subnet_id
-  ]
+  public_subnet_ids = module.networking.public_subnet_ids
 
   security_group_ids = [
     module.security.application_security_group_id
@@ -75,9 +90,7 @@ module "autoscaling" {
   instance_type = var.instance_type
   key_name      = var.key_name
 
-  subnet_ids = [
-    module.networking.public_subnet_id
-  ]
+  subnet_ids = module.networking.public_subnet_ids
 
   security_group_ids = [
     module.security.application_security_group_id

@@ -1,5 +1,5 @@
 variable "vpc_id" {
-  description = "VPC ID where networking resources will be created"
+  description = "VPC ID"
   type        = string
 }
 
@@ -9,18 +9,31 @@ variable "environment" {
 }
 
 variable "public_subnet_cidr" {
-  description = "CIDR block for public subnet"
+  description = "Public subnet CIDR"
   type        = string
 }
-
 
 variable "private_subnet_cidr" {
-  description = "CIDR block for private subnet"
+  description = "Private subnet CIDR"
   type        = string
 }
 
+variable "public_subnet_cidr_2" {
+  description = "Second public subnet CIDR"
+  type        = string
+}
+
+variable "private_subnet_cidr_2" {
+  description = "Second private subnet CIDR"
+  type        = string
+}
 
 variable "availability_zone" {
-  description = "Availability Zone"
+  description = "Primary Availability Zone"
+  type        = string
+}
+
+variable "availability_zone_2" {
+  description = "Secondary Availability Zone"
   type        = string
 }

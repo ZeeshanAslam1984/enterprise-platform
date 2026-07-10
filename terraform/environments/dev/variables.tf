@@ -45,3 +45,20 @@ variable "key_name" {
   type        = string
   default     = "your-keypair-name"
 }
+variable "public_subnet_cidr_2" {
+  description = "CIDR block for the second public subnet"
+  type        = string
+  default     = "10.0.3.0/24"
+}
+
+variable "private_subnet_cidr_2" {
+  description = "CIDR block for the second private subnet"
+  type        = string
+  default     = "10.0.4.0/24"
+}
+
+variable "availability_zone_2" {
+  description = "Second AWS Availability Zone"
+  type        = string
+  default     = "ap-southeast-2b"
+}
