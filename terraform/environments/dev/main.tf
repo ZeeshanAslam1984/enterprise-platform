@@ -46,12 +46,19 @@ module "compute" {
   }
 }
 
-module "storage" {
-  source = "../../modules/storage"
-
-  bucket_name = "platform-engineering-lab-dev-storage"
+    module "load_balancer" {
+  source = "../../modules/load-balancer"
 
   environment = var.environment
+  vpc_id      = module.vpc.vpc_id
+
+  public_subnet_ids = [
+    module.networking.public_subnet_id
+  ]
+
+  security_group_ids = [
+    module.security.application_security_group_id
+  ]
 
   tags = {
     Environment = "dev"
