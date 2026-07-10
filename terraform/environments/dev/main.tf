@@ -45,3 +45,16 @@ module "compute" {
     Project     = "platform-engineering-lab"
   }
 }
+
+module "storage" {
+  source = "../../modules/storage"
+
+  bucket_name = "platform-engineering-lab-dev-storage"
+
+  environment = var.environment
+
+  tags = {
+    Environment = "dev"
+    Project     = "platform-engineering-lab"
+  }
+}
