@@ -62,3 +62,7 @@ variable "availability_zone_2" {
   type        = string
   default     = "ap-southeast-2b"
 }
+variable "project_name" {
+  type    = string
+  default = "platform-engineering-lab"
+}
