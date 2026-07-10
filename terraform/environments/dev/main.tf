@@ -46,7 +46,7 @@ module "compute" {
   }
 }
 
-    module "load_balancer" {
+module "load_balancer" {
   source = "../../modules/load-balancer"
 
   environment = var.environment
@@ -58,6 +58,33 @@ module "compute" {
 
   security_group_ids = [
     module.security.application_security_group_id
+  ]
+
+  tags = {
+    Environment = "dev"
+    Project     = "platform-engineering-lab"
+  }
+}
+
+module "autoscaling" {
+  source = "../../modules/autoscaling"
+
+  environment = var.environment
+
+  ami_id        = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+
+  subnet_ids = [
+    module.networking.public_subnet_id
+  ]
+
+  security_group_ids = [
+    module.security.application_security_group_id
+  ]
+
+  target_group_arns = [
+    module.load_balancer.target_group_arn
   ]
 
   tags = {
