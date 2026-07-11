@@ -115,3 +115,10 @@ module "iam" {
 
   project_name = var.project_name
 }
+module "eks" {
+  source = "../../modules/eks"
+
+  project_name    = var.project_name
+  subnet_ids      = module.networking.private_subnet_ids
+  cluster_version = "1.30"
+}
